@@ -30,8 +30,8 @@ void CheckList::init()
     ui->label_dateTime->setText(dateTime);
     ui->tableWidget_checkList->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
     ui->tableWidget_checkList->horizontalHeader()->setStretchLastSection(true);
-    ui->tableWidget_checkList->setSelectionBehavior(QTableWidget::SelectRows);
-    ui->tableWidget_checkList->setStyleSheet("selection-background-color: red");
+//    ui->tableWidget_checkList->setSelectionBehavior(QTableWidget::SelectRows);
+//    ui->tableWidget_checkList->setStyleSheet("selection-background-color: red");
     this->setWindowState(Qt::WindowMaximized);
 
     //设置表格内容
@@ -117,14 +117,48 @@ void CheckList::singleChoose(bool state)
         int row = index.row();
         int colum = index.column();
 
-        ui->tableWidget_checkList->setCurrentCell(row, colum);//设置当前选中的单元格
+//        ui->tableWidget_checkList->setCurrentCell(row, colum);//设置当前选中的单元格
         if(colum == 3)
         {
              neighbor = dynamic_cast<QCheckBox *>(ui->tableWidget_checkList->cellWidget(row, 4));
+             for(int i = 1; i < ui->tableWidget_checkList->columnCount(); ++i)
+             {
+                 QTableWidgetItem *it = ui->tableWidget_checkList->item(row, i);
+                 if(it != nullptr)
+                 {
+                     it->setBackgroundColor(Qt::white);
+                 }
+                 else
+                 {
+                     QWidget *widget = ui->tableWidget_checkList->cellWidget(row, i);
+                     //qDebug() << widget;
+                     if(widget != nullptr)
+                     {
+                         widget->setStyleSheet("background-color:white;");
+                     }
+                 }
+             }
         }
         if(colum == 4)
         {
              neighbor = dynamic_cast<QCheckBox *>(ui->tableWidget_checkList->cellWidget(row, 3));
+             for(int i = 1; i < ui->tableWidget_checkList->columnCount(); ++i)
+             {
+                 QTableWidgetItem *it = ui->tableWidget_checkList->item(row, i);
+                 if(it != nullptr)
+                 {
+                     it->setBackgroundColor(Qt::red);
+                 }
+                 else
+                 {
+                     QWidget *widget = ui->tableWidget_checkList->cellWidget(row, i);
+                     //qDebug() << widget;
+                     if(widget != nullptr)
+                     {
+                         widget->setStyleSheet("background-color:red;");
+                     }
+                 }
+             }
         }
         neighbor->setCheckState(Qt::Unchecked);
     }
@@ -142,6 +176,15 @@ void CheckList::on_pushButton_save_clicked()
         if(checkYes->isChecked() || checkNo->isChecked())
         {
             chooseCount++;
+        }
+        if(checkNo->isChecked())
+        {
+            QTableWidgetItem *it = ui->tableWidget_checkList->item(i, 5);
+            if(it == nullptr || it->text() == "")
+            {
+                int ret = QMessageBox::critical(this, tr("警告"), tr("请添加相关备注！"), QMessageBox::Ok, QMessageBox::Ok);
+                return;
+            }
         }
     }
     if(chooseCount != ui->tableWidget_checkList->rowCount())
@@ -164,7 +207,7 @@ void CheckList::on_pushButton_save_clicked()
     htmlForSave += "<h3 align = \"center\">所属项目：" + ui->lineEdit_project->text() +
                     "       项目负责人：" + ui->lineEdit_manager->text() + "</h3>";
     //表格部分
-    htmlForSave += "<table align=\"center\" border=\"0.2\" cellspacing=\"0\" cellpadding=\"0\"  style=\" 100%; height: 100%;\">";
+    htmlForSave += "<table margin=\"auto\" border=\"0.2\" cellspacing=\"0\" cellpadding=\"0\"  style=\" 100%; height: 100%;\">";
     int tableRowCount = ui->tableWidget_checkList->rowCount();
     int tableColumCount = ui->tableWidget_checkList->columnCount();
     //表头
@@ -272,6 +315,7 @@ void CheckList::on_pushButton_save_clicked()
     QPrinter printer_text;
     printer_text.setOutputFormat(QPrinter::PdfFormat);
     printer_text.setPageSize(QPrinter::A4);
+    printer_text.setPageMargins(QMarginsF(0,0,0,0));
     printer_text.setOutputFileName(fileName);//fileName为要保存的pdf文件名
     QTextDocument text_document;
     text_document.setHtml(htmlForSave);
