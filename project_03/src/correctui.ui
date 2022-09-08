@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CorrectUI</class>
+ <widget class="QMainWindow" name="CorrectUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>874</width>
+    <height>619</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>矫正界面</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>探头1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="lineEdit_1_M11"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_1_M12"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_1_M13"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLineEdit" name="lineEdit_1_M21"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEdit_1_M22"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_1_M23"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLineEdit" name="lineEdit_1_M31"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEdit_1_M32"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_1_M33"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLineEdit" name="lineEdit_1_x"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEdit_1_y"/>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="lineEdit_1_z"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_start1">
+        <property name="text">
+         <string>启动</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1" rowspan="2">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>分量/总量梯度</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>DL</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Dl"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Bx</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Bx"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>By</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_By"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Bz</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Bz"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Bt</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Bt"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>NB1t</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_NB1t"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>NB2t</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_NB2t"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>探头2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="lineEdit_2_M11"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_2_M12"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_2_M13"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLineEdit" name="lineEdit_2_M21"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEdit_2_M22"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_2_M23"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLineEdit" name="lineEdit_2_M31"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEdit_2_M32"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_2_M33"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLineEdit" name="lineEdit_2_x"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEdit_2_y"/>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="lineEdit_2_z"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_2start">
+        <property name="text">
+         <string>启动</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="0">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="3" column="0">
+       <widget class="QLineEdit" name="lineEdit_3_M31"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_3_M23"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEdit_3_M22"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_3_M12"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>分量矫正</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_3_M33"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_3_M13"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="lineEdit_3_M11"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEdit_3_M32"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLineEdit" name="lineEdit_3_M21"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_start3">
+        <property name="text">
+         <string>启动</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+   <zorder>label</zorder>
+   <zorder>lineEdit_1_M11</zorder>
+   <zorder>lineEdit_1_M12</zorder>
+   <zorder>lineEdit_1_M13</zorder>
+   <zorder>lineEdit_1_M21</zorder>
+   <zorder>lineEdit_1_M22</zorder>
+   <zorder>lineEdit_1_M23</zorder>
+   <zorder>lineEdit_1_M31</zorder>
+   <zorder>lineEdit_1_M32</zorder>
+   <zorder>lineEdit_1_M33</zorder>
+   <zorder>lineEdit_1_x</zorder>
+   <zorder>lineEdit_1_y</zorder>
+   <zorder>lineEdit_1_z</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>label_4</zorder>
+   <zorder>label_5</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
+   <zorder>label_9</zorder>
+   <zorder>label_10</zorder>
+   <zorder>label_11</zorder>
+   <zorder>lineEdit_Dl</zorder>
+   <zorder>lineEdit_Bx</zorder>
+   <zorder>lineEdit_By</zorder>
+   <zorder>lineEdit_Bz</zorder>
+   <zorder>lineEdit_Bt</zorder>
+   <zorder>lineEdit_NB1t</zorder>
+   <zorder>lineEdit_NB2t</zorder>
+   <zorder>label_4</zorder>
+   <zorder></zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>874</width>
+     <height>28</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
