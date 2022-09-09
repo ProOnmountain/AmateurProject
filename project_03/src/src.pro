@@ -26,15 +26,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainui.cpp \
-    correctui.cpp
+    correctui.cpp \
+    battery.cpp \
+    floatbutton.cpp \
+    cyclebutton.cpp
 
 HEADERS += \
         mainui.h \
-    correctui.h
+    correctui.h \
+    battery.h \
+    floatbutton.h \
+    cyclebutton.h
 
 FORMS += \
         mainui.ui \
-    correctui.ui
+    correctui.ui \
+    cyclebutton.ui
 
 RESOURCES += \
     source/mainuisource.qrc

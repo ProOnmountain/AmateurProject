@@ -4,5 +4,10 @@
         <file>image/mainUIBackground.jpeg</file>
         <file>image/mainUIBackground_1.jpeg</file>
         <file>image/mainUIBackground_2.png</file>
+        <file>image/GPS_5.png</file>
+        <file>image/GPS.png</file>
+        <file>image/star.png</file>
+        <file>image/button.png</file>
+        <file>image/setUp.png</file>
     </qresource>
 </RCC>

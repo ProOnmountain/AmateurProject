@@ -1,9 +1,1 @@
-QMainWindow#MainUI{
-/*        border-image: url(:/image/mainUIBackground_2.png);*/
-}
 
-/*-----QLabel-----*/
-QLabel {
-/*        color:white;*/
-
-}

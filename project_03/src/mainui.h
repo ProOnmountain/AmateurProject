@@ -2,6 +2,8 @@
 #define MAINUI_H
 
 #include "./correctui.h"
+#include "./floatbutton.h"
+#include "./cyclebutton.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -17,15 +19,17 @@ public:
     ~MainUI();
 
 private slots:
-    void on_pushButton_correct_clicked();
+    void on_pushButton_correct_clicked();//点击打开配置界面
 
 private:
-    void initUI();
+    void initUI();//初始化界面
     void loadQss();//加载UI界面样式文件
 
 private:
     Ui::MainUI *ui;
     CorrectUI *correctUI;
+    FloatButton *cycleButton;
+    CycleButton *correctButton;
 };
 
 #endif // MAINUI_H
