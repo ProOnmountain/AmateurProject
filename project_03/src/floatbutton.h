@@ -7,10 +7,6 @@
 #include <QMouseEvent>
 #include <QDebug>
 
-namespace Ui {
-class FloatButton;
-}
-
 class FloatButton : public QToolButton
 {
     Q_OBJECT
@@ -26,7 +22,6 @@ private:
     void init();
 
 private:
-    Ui::FloatButton *ui;
     QPoint m_start;//起始点
     QPoint m_end;//结束点
     bool m_leftButtonPressed;//鼠标左键按下标记

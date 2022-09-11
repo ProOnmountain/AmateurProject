@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += serialport
+QT       += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,22 +28,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainui.cpp \
-    correctui.cpp \
     battery.cpp \
     floatbutton.cpp \
-    cyclebutton.cpp
+    function.cpp \
+    painterbase.cpp \
+    configui.cpp
 
 HEADERS += \
         mainui.h \
-    correctui.h \
     battery.h \
     floatbutton.h \
-    cyclebutton.h
+    function.h \
+    painterbase.h \
+    configui.h
 
 FORMS += \
         mainui.ui \
-    correctui.ui \
-    cyclebutton.ui
+    configui.ui
 
 RESOURCES += \
     source/mainuisource.qrc
+
+DISTFILES +=

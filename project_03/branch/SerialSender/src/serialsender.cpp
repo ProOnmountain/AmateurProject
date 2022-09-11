@@ -7,6 +7,7 @@ SerialSender::SerialSender(QWidget *parent) :
     ui(new Ui::SerialSender)
 {
     ui->setupUi(this);
+    time = 0;
     serialportInit();
 }
 
@@ -36,11 +37,11 @@ void SerialSender::serialportInit()
 
 void SerialSender::sendData()
 {
-    QString message("hello world");
+    time += 1;
     QByteArray messageSend;
-    messageSend.append(message);
+    messageSend.append((char *)&time, sizeof(time));
+    qDebug() <<time <<":" << messageSend;
     serialPort->write(messageSend);
-    qDebug() << message;
 }
 
 void SerialSender::on_pushButton_clicked()

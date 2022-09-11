@@ -31,6 +31,7 @@ private:
     Ui::SerialSender *ui;
     QSerialPort *serialPort;
     QTimer *sendTimer;
+    double time;
 };
 
 #endif // SERIALSENDER_H

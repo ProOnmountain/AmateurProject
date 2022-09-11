@@ -67,7 +67,8 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">border:0;</string>
+           <string notr="true">border:0;
+border-radius:10;</string>
           </property>
           <property name="text">
            <string/>
@@ -75,6 +76,12 @@
           <property name="icon">
            <iconset resource="source/mainuisource.qrc">
             <normaloff>:/image/setUp.png</normaloff>:/image/setUp.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -138,7 +145,7 @@
         <item>
          <widget class="QLabel" name="label_star">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -146,8 +153,18 @@
           <property name="minimumSize">
            <size>
             <width>20</width>
-            <height>0</height>
+            <height>20</height>
            </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border-radius:10;
+image: url(:/image/star.png);</string>
           </property>
           <property name="text">
            <string/>
@@ -160,7 +177,7 @@
         <item>
          <widget class="QLabel" name="label_GPS">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -168,11 +185,18 @@
           <property name="minimumSize">
            <size>
             <width>20</width>
-            <height>0</height>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">border-radius:10;
+image: url(:/image/GPS.png);</string>
           </property>
           <property name="text">
            <string/>
@@ -187,13 +211,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QWidget" name="widget_painter" native="true">
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QOpenGLWidget" name="openGLWidget"/>
-       </item>
-      </layout>
-     </widget>
+     <widget class="PainterBase" name="widget_painter" native="true"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_1">
@@ -262,7 +280,6 @@
    </layout>
    <zorder></zorder>
    <zorder>widget_painter</zorder>
-   <zorder>widget_painter</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -285,6 +302,14 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>PainterBase</class>
+   <extends>QWidget</extends>
+   <header location="global">painterbase.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="source/mainuisource.qrc"/>
  </resources>

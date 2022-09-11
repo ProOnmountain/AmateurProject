@@ -3,8 +3,11 @@
 #include "battery.h"
 #include <QFile>
 #include <QDebug>
+#include <thread>
+#include <QMetaType>
 
-const QString qssFileDir = ":/mainuistyle.qss";
+const QString qssFileDir(":/mainuistyle.qss");
+const QString serialPortName("ttyS1");
 
 MainUI::MainUI(QWidget *parent) :
     QMainWindow(parent),
@@ -22,7 +25,9 @@ MainUI::~MainUI()
 void MainUI::initUI()
 {
     ui->mainToolBar->hide();
-    ui->pushButton_correct->setStyleSheet("QPushButton{border-radius:10}");
+    this->setWindowFlags(Qt::FramelessWindowHint | windowFlags());
+    timeCycle = 10;
+    lineNum = 6;
     //添加电池
     Battery *battery_1 = new Battery(this);//添加电池图标
     Battery *battery_2 = new Battery(this);//添加电池图标
@@ -32,21 +37,56 @@ void MainUI::initUI()
     batteryBox->addWidget(battery_1);
     batteryBox->addWidget(battery_2);
     ui->horizontalLayout_3->addLayout(batteryBox, 1);
-    //添加定位和卫星图标
-    QPixmap pixGPS(":/image/GPS.png");
-    QPixmap GPS=pixGPS.scaled(ui->label_GPS->size(),Qt::KeepAspectRatio);
-    ui->label_GPS->setPixmap(GPS);
-    QPixmap pixStar(":/image/star.png");
-    QPixmap star=pixStar.scaled(ui->label_star->size(),Qt::KeepAspectRatio);
-    ui->label_star->setPixmap(star);
 
     //创建浮动按钮
     cycleButton = new FloatButton(this);
+    for(int i = 5; i <= 320; i = i *2)
+    {
+        cycleButton->addAction(new QAction(QString("%1").arg(i) + " s"));
+    }
+    cycleButton->setArrowType(Qt::NoArrow);
     cycleButton->show();
+    QObject::connect(cycleButton,SIGNAL(triggered(QAction*)), this, SLOT(setTimeCycle(QAction*)));
 
     //创建配置界面
-    correctUI = new CorrectUI(this);
-    loadQss();
+    configUI = new ConfigUI(this);
+    QObject::connect(configUI, SIGNAL(showLineIndex(int, int)), this, SLOT(setVisibleIndex(int, int)));
+    configUI->setWindowModality(Qt::ApplicationModal);
+    configUI->show();
+
+    //初始化绘图界面
+    QChart *paint_chart = new QChart;
+    ui->widget_painter->setChart(paint_chart);
+
+    //初始化曲线和坐标轴
+    QValueAxis *xAxis = new QValueAxis;
+    xAxis->setRange(0, 1);
+    QValueAxis *yAxis1 = new QValueAxis;
+    yAxis1->setRange(0, 1);
+    yAxis1->setVisible(false);
+    axisesY.append(yAxis1);
+    QValueAxis *yAxis2 = new QValueAxis;
+    yAxis2->setRange(0, 1);
+    yAxis2->setVisible(false);
+    axisesY.append(yAxis2);
+    paint_chart->addAxis(xAxis, Qt::AlignBottom);
+    paint_chart->addAxis(yAxis1, Qt::AlignLeft);
+    paint_chart->addAxis(yAxis2, Qt::AlignRight);
+    for(int i = 0; i < lineNum; ++i)
+    {
+        QSplineSeries *line = new QSplineSeries;
+        lines.append(line);
+        paint_chart->addSeries(line);
+        line->setVisible(false);
+        line->attachAxis(xAxis);
+    }
+
+    //开启接收数据的线程
+    function = new Function;
+    std::thread *functionThread = new std::thread(&Function::readSerialData, function, serialPortName);
+    functionThread->detach();
+    qRegisterMetaType<QList<QPointF>>("QList<QPointF> &");
+    QObject::connect(function, SIGNAL(drawPoint(QList<QPointF>&)), this, SLOT(appendLinePoint(QList<QPointF>&)));
 }
 
 void MainUI::loadQss()
@@ -64,9 +104,75 @@ void MainUI::loadQss()
 
 void MainUI::on_pushButton_correct_clicked()
 {
-    if(correctUI != nullptr)
+    if(configUI != nullptr)
     {
-        correctUI->show();
+        configUI->show();
     }
 }
 
+void MainUI::setTimeCycle(QAction *action)
+{
+    QStringList textList = action->text().split(" ", QString::SkipEmptyParts);
+    timeCycle = textList[0].toInt();
+    qDebug() << timeCycle;
+}
+
+void MainUI::appendLinePoint(QList<QPointF> &points)
+{
+    for(int i = 0; i < lineNum; ++i)
+    {
+        lines[i]->append(points[i]);
+        //调整x轴范围
+        if(points[i].x() > timeCycle)
+        {
+            ui->widget_painter->chart()->axisX()->setRange(points[i].x() - timeCycle, points[i].x());
+        }
+        //调整y轴范围
+        QValueAxis *yAxis1 = axisesY[0];
+        QValueAxis *yAxis2 = axisesY[1];
+        if(i == showIndex[0])
+        {
+            yAxis1->setMax(yAxis1->max() > points[i].y() ? yAxis1->max() : points[i].y() + 1);
+            yAxis1->setMin(yAxis1->min() > points[i].y() ? points[i].y() - 1 : yAxis1->min());
+        }
+        else if(i == showIndex[1])
+        {
+            yAxis2->setMax(yAxis2->max() > points[i].y() ? yAxis2->max() : points[i].y() + 1);
+            yAxis2->setMin(yAxis2->min() > points[i].y() ? points[i].y() - 1 : yAxis2->min());
+        }
+    }
+}
+
+void MainUI::setLineVisible()
+{
+    int index1 = showIndex[0];
+    int index2 = showIndex[1];
+
+    for(int i = 0; i < lineNum; ++i)
+    {
+        if(index1 == i)
+        {
+            lines[i]->setVisible(true);
+            axisesY[0]->setVisible(true);
+            lines[i]->attachAxis(axisesY[0]);
+        }
+        else if(index2 == i)
+        {
+            lines[i]->setVisible(true);
+            axisesY[1]->setVisible(true);
+            lines[i]->attachAxis(axisesY[1]);
+        }
+        else
+        {
+            lines[i]->setVisible(false);
+        }
+    }
+
+}
+
+void MainUI::setVisibleIndex(int index1, int index2)
+{
+    showIndex[0] = index1;
+    showIndex[1] = index2;
+    setLineVisible();
+}

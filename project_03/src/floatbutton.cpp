@@ -1,27 +1,21 @@
 #include "floatbutton.h"
-#include "ui_floatbutton.h"
 #include <QBitmap>
 
 FloatButton::FloatButton(QWidget *parent) :
-    QToolButton(parent),
-    ui(new Ui::FloatButton)
+    QToolButton(parent)
 {
-    ui->setupUi(this);
     init();
 }
 
 FloatButton::~FloatButton()
 {
-    delete ui;
 }
 
 void FloatButton::init()
 {
     this->resize(50,50);
     isMove = false;
-//    this->setIcon(QIcon(":/image/setUp.png"));
-
-    this->setStyleSheet("border-radius:25;image:url(:/image/button.png)}");
+    this->setStyleSheet("FloatButton{border-radius:25;image:url(:/image/button.png)} FloatButton::menu-indicator{image: none;}");
 }
 
 void FloatButton::mousePressEvent(QMouseEvent *event)
@@ -43,11 +37,14 @@ void FloatButton::mouseReleaseEvent(QMouseEvent *event)
        if (event->button() == Qt::LeftButton)
        {
            if(!isMove)
-//               emit released();
+           {
+               this->showMenu();
+           }
            // 记录鼠标状态
            m_leftButtonPressed = false;
            isMove = false;
        }
+
 }
 
 void FloatButton::mouseMoveEvent(QMouseEvent *event)
