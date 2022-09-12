@@ -6,6 +6,12 @@
 Function::Function(QObject *parent) : QObject(parent)
 {
     serialHandler = nullptr;
+    config.matrix1 = nullptr;
+    config.matrix2 = nullptr;
+    config.matrix3 = nullptr;
+    config.offset1 = nullptr;
+    config.offset2 = nullptr;
+    config.other = nullptr;
 }
 
 Function::~Function()
@@ -16,7 +22,7 @@ bool Function::configSerialPort()
 {
     if(serialHandler != nullptr)
     {
-        QString configFileDir("../config/config.ini");\
+        QString configFileDir("../ini/serialConfig.ini");
         QFile fileHandler(configFileDir);
         if(!fileHandler.open(QIODevice::ReadOnly))
         {
@@ -134,11 +140,11 @@ QStringList Function::getSerialList()
     return portList;
 }
 
-vector<vector<float>> Function::matrixMultip(vector<vector<float> > &A, vector<vector<float> > &B)
+float **Function::matrixMultip(vector<vector<float> > &A, vector<vector<float> > &B)
 {
-    int rows = A.size();
-    int cols = B[0].size();
-    vector<vector<float>> sum;
+    int rows = 3;
+    int cols = 3;
+    float * sum;
     for(int i = 0; i < rows; ++i)
     {
         vector<float> rowVector(cols, 0);
@@ -194,4 +200,16 @@ vector<vector<float>> Function::matrixSub(vector<vector<float> > &A, vector<vect
     }
 
     return sum;
+}
+
+void Function::updateConfig(float **matrix1, float **matrix2, float **matrix3, float *offset1, float *offset2, float *other)
+{
+    config.matrix1 = matrix1;
+    qDebug() << matrix1[0][0];
+    config.matrix2 = matrix2;
+    config.matrix3 = matrix3;
+    config.offset1 = offset1;
+    config.offset2 = offset2;
+    config.other = other;
+    qDebug() << "参数更新";
 }

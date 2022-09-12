@@ -18,10 +18,11 @@ signals:
     void drawPoint(QList<QPointF> &points);//发送绘制信号
 
 public slots:
+    void updateConfig(float **matrix1, float **matrix2, float **matrix3, float *offset1, float *offset2, float *other);
 
 public:
     QStringList getSerialList();//获取本机串口列表
-    vector<vector<float>> matrixMultip(vector<vector<float>>& A,vector<vector<float>>& B);//矩阵乘法
+    float ** matrixMultip(vector<vector<float>>& A,vector<vector<float>>& B);//矩阵乘法
     vector<vector<float>> matrixSub(vector<vector<float>>& A,vector<vector<float>>& B);//矩阵减法
 private:
     bool configSerialPort();//配置串口
@@ -29,6 +30,15 @@ private:
 
 private:
     QSerialPort *serialHandler;
+    struct Config
+    {
+        float **matrix1;
+        float **matrix2;
+        float **matrix3;
+        float *offset1;
+        float *offset2;
+        float *other;
+    } config;
 };
 
 

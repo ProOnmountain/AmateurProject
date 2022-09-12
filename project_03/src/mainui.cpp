@@ -25,9 +25,9 @@ MainUI::~MainUI()
 void MainUI::initUI()
 {
     ui->mainToolBar->hide();
-    this->setWindowFlags(Qt::FramelessWindowHint | windowFlags());
+//    this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     timeCycle = 10;
-    lineNum = 6;
+    lineNum = 11;
     //添加电池
     Battery *battery_1 = new Battery(this);//添加电池图标
     Battery *battery_2 = new Battery(this);//添加电池图标
@@ -87,6 +87,8 @@ void MainUI::initUI()
     functionThread->detach();
     qRegisterMetaType<QList<QPointF>>("QList<QPointF> &");
     QObject::connect(function, SIGNAL(drawPoint(QList<QPointF>&)), this, SLOT(appendLinePoint(QList<QPointF>&)));
+    QObject::connect(configUI, SIGNAL(sendConfig(float**,float**,float**,float*,float*,float*)),
+                     function, SLOT(updateConfig(float**,float**,float**,float*,float*,float*)));
 }
 
 void MainUI::loadQss()
@@ -176,3 +178,4 @@ void MainUI::setVisibleIndex(int index1, int index2)
     showIndex[1] = index2;
     setLineVisible();
 }
+
