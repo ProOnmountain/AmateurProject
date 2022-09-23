@@ -1,1 +1,23 @@
 
+MainUI
+{
+    background-image: url(:/image/background_mainUI.jpeg);
+
+}
+
+QLabel
+{
+    color:white;
+    font:15pt;
+}
+
+PainterBase#widget_painter
+{
+    background-color:transparent;
+    border:2px solid green;
+}
+
+configUI
+{
+    background-image: url(:/image/background_mainUI.jpeg);
+}

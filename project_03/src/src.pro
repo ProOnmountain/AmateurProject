@@ -7,6 +7,8 @@
 QT       += core gui
 QT       += serialport
 QT       += charts
+QT       +=  multimediawidgets
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +34,8 @@ SOURCES += \
     floatbutton.cpp \
     function.cpp \
     painterbase.cpp \
-    configui.cpp
+    configui.cpp \
+    sound.cpp
 
 HEADERS += \
         mainui.h \
@@ -40,7 +43,9 @@ HEADERS += \
     floatbutton.h \
     function.h \
     painterbase.h \
-    configui.h
+    configui.h \
+    define.h \
+    sound.h
 
 FORMS += \
         mainui.ui \

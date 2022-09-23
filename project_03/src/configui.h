@@ -28,8 +28,6 @@ private slots:
 
     void on_pushButton_delete_clicked();
 
-//    void on_comboBox_config_currentIndexChanged(int index);
-
     void on_pushButton_matrix1_clicked();
 
     void on_pushButton_matrix2_clicked();

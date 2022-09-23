@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>600</height>
+    <width>930</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,7 +20,7 @@
    <string>主界面</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">MainUI{background-image: url(:/image/background_mainUI.jpeg);}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,20,1">
@@ -40,7 +40,10 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="10,0">
+     <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="20,2,2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <property name="spacing">
@@ -75,7 +78,7 @@ border-radius:10;</string>
           </property>
           <property name="icon">
            <iconset resource="source/mainuisource.qrc">
-            <normaloff>:/image/setUp.png</normaloff>:/image/setUp.png</iconset>
+            <normaloff>:/image/setup3.png</normaloff>:/image/setup3.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -86,7 +89,7 @@ border-radius:10;</string>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_15">
+         <widget class="QLabel" name="label_acc">
           <property name="text">
            <string>加速度：1</string>
           </property>
@@ -96,7 +99,7 @@ border-radius:10;</string>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_B1">
           <property name="text">
            <string>B1:1</string>
           </property>
@@ -106,7 +109,7 @@ border-radius:10;</string>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="label_B2">
           <property name="text">
            <string>B2:1</string>
           </property>
@@ -116,7 +119,7 @@ border-radius:10;</string>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="label_B3">
           <property name="text">
            <string>B3:1</string>
           </property>
@@ -126,7 +129,7 @@ border-radius:10;</string>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="label_B1B2">
           <property name="text">
            <string>B1-B2:1</string>
           </property>
@@ -138,10 +141,7 @@ border-radius:10;</string>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
         <item>
          <widget class="QLabel" name="label_star">
           <property name="sizePolicy">
@@ -175,7 +175,36 @@ image: url(:/image/star.png);</string>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_GPS">
+         <widget class="QLabel" name="label_starNum">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_5">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -206,17 +235,46 @@ image: url(:/image/GPS.png);</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="label_GPS">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
     </item>
     <item>
-     <widget class="PainterBase" name="widget_painter" native="true"/>
+     <widget class="PainterBase" name="widget_painter" native="true">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_1">
       <item>
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="label_B1x">
         <property name="text">
          <string>B1x:1</string>
         </property>
@@ -226,7 +284,7 @@ image: url(:/image/GPS.png);</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="label_B1y">
         <property name="text">
          <string>B1y:1</string>
         </property>
@@ -236,7 +294,7 @@ image: url(:/image/GPS.png);</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="label_B1z">
         <property name="text">
          <string>B1z:1</string>
         </property>
@@ -246,7 +304,7 @@ image: url(:/image/GPS.png);</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="label_B2x">
         <property name="text">
          <string>B2x:1</string>
         </property>
@@ -256,7 +314,7 @@ image: url(:/image/GPS.png);</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="label_B2y">
         <property name="text">
          <string>B2y:1</string>
         </property>
@@ -266,7 +324,7 @@ image: url(:/image/GPS.png);</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="label_B2z">
         <property name="text">
          <string>B2z:1</string>
         </property>
@@ -286,7 +344,7 @@ image: url(:/image/GPS.png);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>930</width>
      <height>28</height>
     </rect>
    </property>

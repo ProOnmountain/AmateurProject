@@ -84,6 +84,16 @@ void Battery::drawBg(QPainter *painter)
     painter->setPen(Qt::NoPen);
     painter->setBrush(batteryGradient);
     painter->drawRect(rect);
+    painter->setPen(Qt::white);
+    QFont font("Ubuntu", 6);
+    painter->setFont(font);
+    QString electricity = QString("%1%").arg(currentValue);
+    QFontMetrics fontmetry(font);
+    int strWidth = fontmetry.width(electricity);
+    int strHeight = fontmetry.height();
+    painter->drawText(QPointF(batteryRect.topLeft().x() + batteryRect.width() / 2 - strWidth / 2,
+                              batteryRect.topLeft().y() + batteryRect.height() / 2 + strHeight / 3 ),
+                      electricity);
 
     painter->restore();
 }

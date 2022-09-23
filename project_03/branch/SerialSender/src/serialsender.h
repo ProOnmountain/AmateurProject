@@ -26,12 +26,12 @@ private slots:
 
 private:
     void serialportInit();
+    void convertBigSmall(char *dest, char *src, int len);
 
 private:
     Ui::SerialSender *ui;
     QSerialPort *serialPort;
     QTimer *sendTimer;
-    double time;
 };
 
 #endif // SERIALSENDER_H

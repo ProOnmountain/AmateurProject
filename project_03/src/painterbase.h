@@ -10,6 +10,8 @@ class PainterBase : public QChartView
 public:
     explicit PainterBase(QWidget *parent = nullptr);
 
+private:
+    void init();
 signals:
 
 public slots:

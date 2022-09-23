@@ -1,16 +1,13 @@
 #include "configui.h"
 #include "ui_configui.h"
 #include "function.h"
+#include "define.h"
 #include  <QDebug>
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
 #include <QDir>
-
-const QString configDir("../config/");//配置目录
-const QString lastConfigFile("../config/.lastConfig");//上一次关机配置
-const QString defaultFile("../config/.default");//默认配置文件
 
 ConfigUI::ConfigUI(QWidget *parent) :
     QMainWindow(parent),
@@ -27,9 +24,9 @@ ConfigUI::~ConfigUI()
 
 void ConfigUI::init()
 {
+    this->setFixedSize(902, 429);
     QDir configDirInfo(configDir);
     QStringList fileList = configDirInfo.entryList();
-    qDebug() << fileList;
     fileList.removeOne(".");
     fileList.removeOne("..");
     ui->comboBox_config->addItems(fileList);
@@ -362,24 +359,6 @@ void ConfigUI::on_pushButton_delete_clicked()
         load(configDir + ui->comboBox_config->currentText());
     }
 }
-
-//void ConfigUI::on_comboBox_config_currentIndexChanged(int index)
-//{
-//    QString fileName;
-//    if(index == 0)
-//    {
-//        fileName = lastConfigFile;
-//    }
-//    else if(index == 1)
-//    {
-//        fileName = defaultFile;
-//    }
-//    else
-//    {
-//        fileName = configDir + ui->comboBox_config->currentText();
-//    }
-//    load(fileName);
-//}
 
 void ConfigUI::on_pushButton_matrix1_clicked()
 {

@@ -1,12 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>mainuistyle.qss</file>
-        <file>image/mainUIBackground.jpeg</file>
-        <file>image/mainUIBackground_1.jpeg</file>
-        <file>image/mainUIBackground_2.png</file>
         <file>image/GPS.png</file>
         <file>image/star.png</file>
         <file>image/button.png</file>
         <file>image/setUp.png</file>
+        <file>image/timeCycle.png</file>
+        <file>image/background_mainUI.jpeg</file>
+        <file>image/setup2.jpeg</file>
+        <file>image/setup3.png</file>
     </qresource>
 </RCC>
