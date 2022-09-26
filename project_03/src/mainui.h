@@ -43,6 +43,7 @@ private:
     void initUI();//初始化界面
     void loadQss();//加载UI界面样式文件
     void setLineVisible();//设置曲线可见
+    void maxSubMin();
 
 private:
     Ui::MainUI *ui;
@@ -54,6 +55,7 @@ private:
     int timeCycle;//周期
     QList<QSplineSeries *> lines;//曲线
     QList<QString> lineName;//曲线名字
+    QList<QColor> lineColor;
     QList<QValueAxis *> axisesY;//y轴
     int showIndex[2];//可显示的曲线
     std::mutex *mutex;

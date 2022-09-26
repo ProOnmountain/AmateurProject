@@ -37,6 +37,7 @@ void SerialSender::serialportInit()
 float mindex = 0;
 void SerialSender::sendData()
 {
+    qDebug() << mindex;
     char * data = new char[85];
     data[0] = 0x01;
     data[1] = 0x03;

@@ -8,5 +8,4 @@ PainterBase::PainterBase(QWidget *parent) : QChartView(parent)
 
 void PainterBase::init()
 {
-
 }

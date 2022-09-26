@@ -1,5 +1,5 @@
 #include "floatbutton.h"
-#include <QBitmap>
+#include <QMenu>
 
 FloatButton::FloatButton(QWidget *parent) :
     QToolButton(parent)
@@ -15,7 +15,7 @@ void FloatButton::init()
 {
     this->resize(30,30);
     isMove = false;
-    this->setStyleSheet("FloatButton{border-radius:15;image:url(:/image/timeCycle.png);} FloatButton::menu-indicator{image: none;}");
+    this->setStyleSheet("FloatButton{border-radius:15;image:url(:/image/timebutton.png);} FloatButton::menu-indicator{image: none;}");
 }
 
 void FloatButton::mousePressEvent(QMouseEvent *event)

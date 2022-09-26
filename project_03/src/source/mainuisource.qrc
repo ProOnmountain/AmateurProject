@@ -3,11 +3,13 @@
         <file>mainuistyle.qss</file>
         <file>image/GPS.png</file>
         <file>image/star.png</file>
-        <file>image/button.png</file>
         <file>image/setUp.png</file>
         <file>image/timeCycle.png</file>
         <file>image/background_mainUI.jpeg</file>
         <file>image/setup2.jpeg</file>
         <file>image/setup3.png</file>
+        <file>image/time2.png</file>
+        <file>image/time3.png</file>
+        <file>image/timebutton.png</file>
     </qresource>
 </RCC>

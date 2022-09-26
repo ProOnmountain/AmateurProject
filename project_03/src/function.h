@@ -63,8 +63,8 @@ private:
     float *atomic = new float;
     float *CRCC = new float;
     std::deque<float> MG;
-    std::deque<float> warnData;
-    float warnCount;
+    std::deque<float> warnData;//用来存放计算预警的数据
+    float warnCount;//用来判断是否进行预警计算
     float MA1;
 };
 

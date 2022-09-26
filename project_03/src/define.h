@@ -8,6 +8,7 @@ const QString qssFileDir(":/mainuistyle.qss");
 const QString serialPortName("ttyS1");//串口名称
 const int rawDataSize = 85;//每帧数据大小
 const int lineNum = 11;//曲线条数
-const int timeStep = 100;//时间步进
+const int timeStep = 100;//时间步进ms
 const int warnTime = 4;//预警时间
+const int lineWidth = 3;
 #endif // DEFINE_H

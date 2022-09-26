@@ -145,7 +145,6 @@ void Function::dealRawData(QByteArray &rawData, std::mutex *mutex)
     convertBigSmall((char*)&B2[2], p + 23, 4);
 //    //加速率
     convertBigSmall((char*)&acc[0], p + 27, 4);
-//    qDebug() << acc[0];
     convertBigSmall((char*)&acc[1], p + 31, 4);
     convertBigSmall((char*)&acc[2], p + 35, 4);
     //方位角
@@ -301,7 +300,8 @@ void Function::warnAlgorithm()
         sampleRate = config.other[4];
         float ML = config.other[6];
         float DT = config.other[7];
-        float tempMG = (MA2 - MA1)/ DT;
+        float tempMG = (MA2 - MA1)/ DT * sampleRate;
+//        qDebug() << "MG: " << tempMG;
         MA1 = MA2;
         if(MG.size() == ML)
         {
@@ -328,12 +328,12 @@ void Function::warnAlgorithm()
                 break;
             }
         }
-        if(abs(MG[i]) - THm <= 0)
+        if(abs(MG[i]) < THm)
         {
             isWarn =false;
             break;
         }
-        if(abs(*acc) > THa)
+        if(sqrt(pow(acc[0], 2) + pow(acc[1], 2) + pow(acc[2], 2)) > THa)
         {
             isWarn = false;
             break;
@@ -342,14 +342,15 @@ void Function::warnAlgorithm()
 
     if(isWarn == true)
     {
-        int freq = MG.back() * 100;
+        qDebug() << "enter warn";
+        int freq = MG.back() * 100;//设置蜂鸣频率
         if(MG.back() < MGmax)
         {
-            warn(freq);
+            emit warn(freq);//发出蜂鸣
         }
         else
         {
-            warn(MGmax * 100);
+            emit warn(MGmax * 100);
         }
     }
 }
