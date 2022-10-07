@@ -30,14 +30,15 @@ public:
     ~MainUI();
 
 private slots:
-    void on_pushButton_correct_clicked();//点击打开配置界面
+    void on_pushButton_config_clicked();//点击打开配置界面
     void setTimeCycle(QAction *action);//设置周期
     void appendLinePoint(QList<QPointF> &points);
     void setVisibleIndex(int index1, int index2);//设置可见曲线序号
     void updateMainUI(float * adjust_B1, float * adjust_B2, float *B1, float *B2, float *acc, float *angle, float *speed,
                       float *gpsTime, float *locate, float *starNum, float *battery, float *atomic, float *CRCC);//更新界面
-    void warnPlay(int freq);//播放预警
+    void warnPlay(int8_t freq, QSerialPort *serial);//播放预警
     void warnStop();//停止预警
+    void playStop();
 
 private:
     void initUI();//初始化界面
@@ -48,12 +49,11 @@ private:
 private:
     Ui::MainUI *ui;
     Battery *battery_1;
-    Battery *battery_2;
     ConfigUI *configUI;//配置界面
     FloatButton *cycleButton;//浮动按钮
     Function *function;//计算
     int timeCycle;//周期
-    QList<QSplineSeries *> lines;//曲线
+    QList<QLineSeries *> lines;//曲线
     QList<QString> lineName;//曲线名字
     QList<QColor> lineColor;
     QList<QValueAxis *> axisesY;//y轴
@@ -62,6 +62,7 @@ private:
     QAudioOutput *soundPlay;//蜂鸣播放
     Sound *sound;//声音
     QTimer *soundTimer;//控制预警时间
+    QSerialPort *serialHandler;
     double playTime;
 };
 

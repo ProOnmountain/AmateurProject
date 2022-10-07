@@ -13,7 +13,7 @@ FloatButton::~FloatButton()
 
 void FloatButton::init()
 {
-    this->resize(30,30);
+    this->resize(60,60);
     isMove = false;
     this->setStyleSheet("FloatButton{border-radius:15;image:url(:/image/timebutton.png);} FloatButton::menu-indicator{image: none;}");
 }

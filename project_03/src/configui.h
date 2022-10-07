@@ -2,6 +2,7 @@
 #define ConfigUI_H
 
 #include <QMainWindow>
+#include <numberkeyboard.h>
 
 namespace Ui {
 class ConfigUI;
@@ -16,8 +17,8 @@ public:
     ~ConfigUI();
 
 signals:
-    void showLineIndex(int index1, int index2);
-    void sendConfig(float **, float **, float **, float *, float *, float *);
+    void showLineIndex(int index1, int index2);//发送显示的曲线
+    void sendConfig(float **, float **, float **, float *, float *, float *);//发送配置信息
 
 private slots:
     void on_pushButton_apply_clicked();
@@ -38,7 +39,7 @@ private:
     void init();
     bool save(QString fileName);//保存参数文件
     bool load(QString fileName);//加载参数文件
-    void getMatrixOffset();
+    void getMatrixOffset();//获取矩阵和偏移
     virtual void closeEvent(QCloseEvent *event);
 
 private:
@@ -50,6 +51,8 @@ private:
     float *offset2;
     float *other;
 
+    NumberKeyboard *keyBoard;//键盘
+    QWidget *currentInputWidget;//当前输入对象
 };
 
 #endif // ConfigUI_H

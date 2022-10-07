@@ -23,7 +23,7 @@
    <string notr="true">MainUI{background-image: url(:/image/background_mainUI.jpeg);}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,20">
+   <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,8">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="20,2,2">
       <property name="spacing">
@@ -35,7 +35,7 @@
          <number>3</number>
         </property>
         <item>
-         <widget class="QPushButton" name="pushButton_correct">
+         <widget class="QPushButton" name="pushButton_config">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -50,8 +50,8 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>80</width>
+            <height>80</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -75,8 +75,19 @@ border-radius:10;</string>
         </item>
         <item>
          <widget class="QLabel" name="label_acc">
+          <property name="font">
+           <font>
+            <family>Ubuntu Condensed</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="text">
-           <string>a：1</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -85,8 +96,16 @@ border-radius:10;</string>
         </item>
         <item>
          <widget class="QLabel" name="label_B1">
+          <property name="font">
+           <font>
+            <family>Ubuntu Condensed</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>B1:1</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -95,8 +114,16 @@ border-radius:10;</string>
         </item>
         <item>
          <widget class="QLabel" name="label_B2">
+          <property name="font">
+           <font>
+            <family>Ubuntu Condensed</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>B2:1</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -105,8 +132,16 @@ border-radius:10;</string>
         </item>
         <item>
          <widget class="QLabel" name="label_B3">
+          <property name="font">
+           <font>
+            <family>Ubuntu Condensed</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>B3:1</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -115,8 +150,16 @@ border-radius:10;</string>
         </item>
         <item>
          <widget class="QLabel" name="label_B1B2">
+          <property name="font">
+           <font>
+            <family>Ubuntu Condensed</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>B1-B2:1</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -179,8 +222,19 @@ image: url(:/image/star.png);</string>
             <height>20</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <family>Ubuntu Condensed</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>1</string>
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -240,8 +294,19 @@ image: url(:/image/GPS.png);</string>
             <height>20</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <family>Ubuntu Condensed</family>
+            <pointsize>20</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>1</string>
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -250,7 +315,7 @@ image: url(:/image/GPS.png);</string>
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="20,1">
+     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="6,1">
       <item>
        <widget class="PainterBase" name="widget_painter" native="true">
         <property name="enabled">
@@ -307,15 +372,23 @@ image: url(:/image/GPS.png);</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>40</width>
+                  <width>80</width>
                   <height>16777215</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Ubuntu Condensed</family>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
                 </property>
                 <property name="text">
                  <string/>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
@@ -324,22 +397,30 @@ image: url(:/image/GPS.png);</string>
             <item>
              <widget class="QLabel" name="label_sub1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
+                <width>120</width>
                 <height>16777215</height>
                </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu Condensed</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
               </property>
               <property name="text">
                <string/>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -387,15 +468,23 @@ image: url(:/image/GPS.png);</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>40</width>
+                  <width>80</width>
                   <height>16777215</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Ubuntu Condensed</family>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
                 </property>
                 <property name="text">
                  <string/>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
@@ -404,22 +493,30 @@ image: url(:/image/GPS.png);</string>
             <item>
              <widget class="QLabel" name="label_sub2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
+                <width>120</width>
                 <height>16777215</height>
                </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu Condensed</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
               </property>
               <property name="text">
                <string/>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -430,7 +527,7 @@ image: url(:/image/GPS.png);</string>
         <item>
          <widget class="QLabel" name="label_show">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -443,15 +540,18 @@ image: url(:/image/GPS.png);</string>
           </property>
           <property name="maximumSize">
            <size>
-            <width>40</width>
+            <width>160</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
           </property>
           <property name="text">
            <string/>
           </property>
           <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
           </property>
          </widget>
         </item>

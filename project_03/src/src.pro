@@ -35,7 +35,8 @@ SOURCES += \
     function.cpp \
     painterbase.cpp \
     configui.cpp \
-    sound.cpp
+    sound.cpp \
+    numberkeyboard.cpp
 
 HEADERS += \
         mainui.h \
@@ -45,11 +46,13 @@ HEADERS += \
     painterbase.h \
     configui.h \
     define.h \
-    sound.h
+    sound.h \
+    numberkeyboard.h
 
 FORMS += \
         mainui.ui \
-    configui.ui
+    configui.ui \
+    numberkeyboard.ui
 
 RESOURCES += \
     source/mainuisource.qrc

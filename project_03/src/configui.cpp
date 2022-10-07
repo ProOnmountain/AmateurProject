@@ -8,6 +8,9 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDir>
+#include <QDateTime>
+#include <QDesktopWidget>
+#include <QMouseEvent>
 
 ConfigUI::ConfigUI(QWidget *parent) :
     QMainWindow(parent),
@@ -24,14 +27,17 @@ ConfigUI::~ConfigUI()
 
 void ConfigUI::init()
 {
-    this->setFixedSize(902, 429);
+    keyBoard = new NumberKeyboard;
+    keyBoard->show();
+    this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
     QDir configDirInfo(configDir);
     QStringList fileList = configDirInfo.entryList();
+    currentInputWidget = nullptr;
     fileList.removeOne(".");
     fileList.removeOne("..");
     ui->comboBox_config->addItems(fileList);
-    load(lastConfigFile);//加载上一次配置
 
+    load(lastConfigFile);//加载上一次配置
     //初始化数据存储
     matrix1 = new float*[3];
     matrix2 = new float*[3];
@@ -44,7 +50,7 @@ void ConfigUI::init()
     }
     offset1 = new float[3];
     offset2 = new float[3];
-    other = new float[8];
+    other = new float[9];
 }
 
 void ConfigUI::closeEvent(QCloseEvent *event)
@@ -56,7 +62,6 @@ void ConfigUI::closeEvent(QCloseEvent *event)
 void ConfigUI::on_pushButton_apply_clicked()
 {
     save(lastConfigFile);//保存当前配置
-
     //获取界面输入
     //获取矩阵输入
     getMatrixOffset();
@@ -69,7 +74,7 @@ void ConfigUI::on_pushButton_apply_clicked()
     other[5] = (ui->spinBox_MT->text().toFloat());
     other[6] = (ui->spinBox_ML->text().toFloat());
     other[7] = (ui->spinBox_DT->text().toFloat());
-
+    other[8] = (ui->spinBox_coefficient->text().toFloat());
     //把数据传到主界面
     emit showLineIndex(ui->comboBox_line1->currentIndex() - 1, ui->comboBox_line2->currentIndex() - 1);
     emit sendConfig(matrix1, matrix2, matrix3, offset1, offset2, other);
@@ -78,7 +83,23 @@ void ConfigUI::on_pushButton_apply_clicked()
 
 void ConfigUI::on_pushButton_save_clicked()
 {
-    QString fileName = QInputDialog::getText(this, tr("输入文件名"), tr("请输入保存文件名"), QLineEdit::Normal);
+    QDateTime dateTime = QDateTime::currentDateTime();
+    QString defaultName = dateTime.toString("yyyyMMdd-HHmm");
+    QString fileName = QInputDialog::getText(this, tr("输入文件名"), tr("请输入保存文件名"), QLineEdit::Normal, defaultName);
+    QDir configDirInfo(configDir);
+    QStringList fileList = configDirInfo.entryList();
+    while(fileList.contains(fileName + ".config"))
+    {
+        int ret = QMessageBox::critical(this, tr("警告"), tr("配置文件已经存在，是否覆盖！"), QMessageBox::Yes, QMessageBox::No);
+        if(ret == QMessageBox::No)
+        {
+            fileName = QInputDialog::getText(this, tr("输入文件名"), tr("请输入保存文件名"), QLineEdit::Normal);
+        }
+        else
+        {
+            break;
+        }
+    }
     if(fileName != "")
     {
         if(!fileName.contains(".config"))
@@ -87,7 +108,10 @@ void ConfigUI::on_pushButton_save_clicked()
         }
         QString totalFileName = configDir + fileName;
         save(totalFileName);
-        ui->comboBox_config->addItem(fileName);
+        if(!fileList.contains(fileName))
+        {
+            ui->comboBox_config->addItem(fileName);
+        }
     }
     else
     {
@@ -131,7 +155,8 @@ bool ConfigUI::save(QString fileName)
     //保存数据处理配置
     fileStream << ui->spinBox_MT->text() << "," << ui->spinBox_ML->text() << "," << ui->spinBox_DT->text() <<"\n";
     fileHandle.close();
-    qDebug().noquote() << "配置保存成功: " << fileHandle.fileName() ;
+    qDebug().noquote() << "配置保存成功: " << fileHandle.fileName();
+    return true;
 }
 
 bool ConfigUI::load(QString fileName)
@@ -147,9 +172,11 @@ bool ConfigUI::load(QString fileName)
         QMessageBox::critical(this, tr("警告"), tr("文件打开失败，请检查文件！"), QMessageBox::Ok, QMessageBox::Ok);
         return false;
     }
+
     QTextStream * read = new QTextStream(&fileHandle);
     QStringList rawData = read->readAll().split("\n",QString::SkipEmptyParts);//提取原始的文件数据
 //    qDebug() << rawData;
+
     for(int i = 0; i < rawData.count(); ++i)
     {
         QStringList strLine = rawData.at(i).split(",");//每条数据是以逗号分开的
@@ -259,7 +286,9 @@ bool ConfigUI::load(QString fileName)
             ui->spinBox_DT->setValue(strLine[2].toInt());
         }
     }
+
     fileHandle.close();
+    return true;
 }
 
 void ConfigUI::on_pushButton_load_clicked()
@@ -297,7 +326,6 @@ void ConfigUI::getMatrixOffset()
             matrix1[i][2] = (ui->doubleSpinBox_1_M13->text().toFloat());
             matrix2[i][2] = (ui->doubleSpinBox_2_M13->text().toFloat());
             matrix3[i][2] = (ui->doubleSpinBox_3_M13->text().toFloat());
-
         }
         if(i == 1)
         {
@@ -342,6 +370,7 @@ void ConfigUI::getMatrixOffset()
             offset2[2] = (ui->doubleSpinBox_2z->text().toFloat());
         }
     }
+    qDebug() << "get matrix and offset";
 }
 
 void ConfigUI::on_pushButton_delete_clicked()

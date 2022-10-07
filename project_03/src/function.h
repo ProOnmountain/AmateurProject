@@ -20,17 +20,18 @@ public:
 signals:
     void drawPoint(QList<QPointF> &points);//发送绘制信号
     void drawPoint(QPointF *points);
-    void updateMainUI(float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *);
-    void warn(int freq);
+    void updateMainUI(float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *);//更新界面
+    void warn(int8_t freq, QSerialPort *serialHandler);//蜂鸣器控制
 
 public slots:
-    void updateConfig(float **matrix1, float **matrix2, float **matrix3, float *offset1, float *offset2, float *other);
+    void updateConfig(float **matrix1, float **matrix2, float **matrix3, float *offset1, float *offset2, float *other);//接收配置更新
 
 public:
     QStringList getSerialList();//获取本机串口列表
 
 private:
-    bool configSerialPort();//配置串口
+    bool configSerialPort();//配置串口，从默认文件配置
+    void configSerialPort(int baudRate = 115280, int dataBit = 8, int parity = 0, int stopBits = 1, int flowControl = 0);//配置串口，从参数输入
     void convertBigSmall(char *dest, char *src, int len);//数据大小端转化
     void dealRawData(QByteArray &rawData, std::mutex *mutex);//处理串口数据
     float *adjustAlgorithm(float **matrix, float *rawVector, float *offset);//校准算法
