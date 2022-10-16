@@ -6,6 +6,7 @@
 #include <QtMath>
 #include <QMetaType>
 #include <thread>
+#include <QStringList>
 #include "stdio.h"
 Function::Function(QObject *parent) : QObject(parent)
 {
@@ -20,6 +21,8 @@ Function::Function(QObject *parent) : QObject(parent)
     warnCount = 0;
     MA1 = 0;
     qRegisterMetaType<int8_t>("int8_t");
+    soundTimer = new QTimer();
+    QObject::connect(soundTimer, SIGNAL(timeout()), this, SLOT(warnStop()));
 }
 
 Function::~Function()
@@ -99,30 +102,67 @@ void Function::readSerialData(QString serialPort, std::mutex *mutex)
     {
         serialHandler = new QSerialPort;
     }
-    if(!serialHandler->isOpen())
+    while(!serialHandler->isOpen())
     {
-        serialHandler->setPortName(serialPort);
-        while(!serialHandler->open(QIODevice::ReadWrite))
+        QStringList serialList = getSerialList();
+        for(int i = 0; i < serialList.count(); ++i)
         {
+            QString tempPort = serialList.at(i);
+            if(tempPort.contains(serialPortName))
+            {
+                serialHandler->setPortName(serialList.at(i));
+
+                qDebug() << "INFO: 正在尝试打开串口";
+                if(serialHandler->open(QIODevice::ReadWrite))
+                {
+                    serialPort = serialList.at(i);
+                    break;
+                }
+            }
+
+        }
+        qDebug() << "INFO: 找不到匹配的串口， 再次尝试";
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+    }
+
+    configSerialPort(115280);
+    qDebug() << "INFO: 串口已启动，准备接收数据";
+
+    //接收数据
+    QByteArray rawData;
+    while(true)
+    {   
+        while(serialHandler->waitForReadyRead())
+        {
+//            qDebug() <<"INFO: before dealRaw clear";
+            rawData.clear();
+            rawData.append(serialHandler->readAll());
+            if(!rawData.isEmpty())
+            {
+//                qDebug() <<"INFO: before dealRaw";
+                dealRawData(rawData, mutex);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if(!serialHandler->isOpen())
+        {
+            serialHandler->setPortName(serialPort);
             qDebug() << "INFO: 尝试打开串口，串口名字：" << serialPort;
             std::this_thread::sleep_for(std::chrono::seconds(3));
         }
-        configSerialPort(115280);
-    }
-    qDebug() << "INFO: 串口已启动，准备接收数据";
-    //接收数据
-    QByteArray rawData;
-    while(serialHandler->waitForReadyRead())
-    {
-        rawData.clear();
-        rawData.append(serialHandler->readAll());
-        if(!rawData.isEmpty())
+        else if(serialHandler->isOpen())
         {
-            dealRawData(rawData, mutex);
+            qDebug() << "INFO: 数据延迟";
+            std::this_thread::sleep_for(std::chrono::seconds(3));
+        }
+        else
+        {
+            qDebug() << "INFO: 串口断开链接，无法重联";
+            break;
         }
     }
 }
-
+int i = 0;
 void Function::dealRawData(QByteArray &rawData, std::mutex *mutex)
 {
     //按字节读取数据
@@ -138,6 +178,10 @@ void Function::dealRawData(QByteArray &rawData, std::mutex *mutex)
     convertBigSmall((char*)&B1[0], p + 3, 4);
     convertBigSmall((char*)&B1[1], p + 7, 4);
     convertBigSmall((char*)&B1[2], p + 11, 4);
+    qDebug() <<"次同门1：" <<B1[0];
+    qDebug() <<"次同门2：" <<B1[2];
+    qDebug() <<"次同门3：" <<B1[3];
+//    qDebug() <<"INFO: 次同门1";
     //磁通门2
     convertBigSmall((char*)&B2[0], p + 15, 4);
     convertBigSmall((char*)&B2[1], p + 19, 4);
@@ -154,6 +198,7 @@ void Function::dealRawData(QByteArray &rawData, std::mutex *mutex)
     convertBigSmall((char*)&speed[0], p + 51, 4);
     convertBigSmall((char*)&speed[1], p + 55, 4);
     convertBigSmall((char*)&speed[2], p + 59, 4);
+//    qDebug() <<"INFO: before GPS";
     //GPS
     convertBigSmall((char*)gpsTime, p + 63, 4);
     //定位状态
@@ -211,6 +256,7 @@ void Function::dealRawData(QByteArray &rawData, std::mutex *mutex)
             warnAlgorithm();
         }
     }
+//    qDebug() << "INFO: deal data " << i++ ;
     emit updateMainUI(adjust_B1, adjust_B2, B1, B2, acc, angle, speed, gpsTime, locate, starNum, battery, atomic, CRCC);
     mutex->unlock();
 }
@@ -220,9 +266,9 @@ QStringList Function::getSerialList()
     QStringList portList;
     QList<QSerialPortInfo> serialPortInfoList = QSerialPortInfo::availablePorts();
     QList<QSerialPortInfo>::iterator iter = serialPortInfoList.begin();
-
+    qDebug() << "INFO: 当前串口设备：";
     while(iter!=serialPortInfoList.end()){
-        qDebug() << iter->portName();
+        qDebug() << "     " << iter->portName();
         portList.append(iter->portName());
         iter++;
     }
@@ -279,6 +325,7 @@ float* Function::consistencyAdjustAlgorithm(float **matrix, float *adjustVector)
 
 void Function::warnAlgorithm()
 {
+//    qDebug() <<"INFO: 预警";
     //计算预警信息
     float THm = 0;
     float THa = 0;
@@ -286,13 +333,19 @@ void Function::warnAlgorithm()
     float sampleRate = 0;
     float MA2 = 0;
     float coefficient = 0;
-    for(unsigned int i = 0; i < warnData.size(); ++i)
+//    qDebug() <<"INFO: warnData size: " << warnData.size();
+    for(int i = 0; i < warnData.size(); ++i)
     {
         MA2 += warnData[i];
     }
-    MA2 = MA2 / warnData.size();
+    if(warnData.size() > 0)
+    {
+        MA2 = MA2 / warnData.size();
+    }
+//    qDebug() <<"INFO: warnData after";
     if(config.other != nullptr)
     {
+//        qDebug() << "INFO: config before";
         THm = config.other[1];
         THa = config.other[2];
         MGmax = config.other[3];
@@ -300,6 +353,7 @@ void Function::warnAlgorithm()
         coefficient = config.other[8];
         float ML = config.other[6];
         float DT = config.other[7];
+//        qDebug() << "INFO: config after";
         float tempMG = (MA2 - MA1)/ DT * sampleRate;
         MA1 = MA2;
         if(MG.size() == ML)
@@ -338,7 +392,7 @@ void Function::warnAlgorithm()
             break;
         }
     }
-    emit warn(0, serialHandler);
+//    qDebug() << "INFO: before if";
     if(isWarn == true)
     {
 
@@ -347,7 +401,7 @@ void Function::warnAlgorithm()
         {
             freq = (int)(MGmax * coefficient);
         }
-        emit warn(freq, serialHandler);
+        warnPlay(freq);
         qDebug() << "INFO：开启蜂鸣器，频率：" << freq;
     }
 }
@@ -362,5 +416,37 @@ void Function::convertBigSmall(char *dest, char *src, int len)
             memcpy(dest + i, src + j, sizeof(char));
             ++j;
         }
+    }
+}
+
+void Function::warnPlay(int8_t freq)
+{
+    //下发指令
+    if(serialHandler != nullptr)
+    {
+        char *command = new char[4];
+        command[0] = 'F';
+        command[1] = 'M';
+        command[2] = 'Q';
+        memcpy(&command[3], &freq, sizeof(int8_t));
+        serialHandler->write(command, 4);//串口下发
+//        qDebug() << "INFO: before timer";
+        soundTimer->start(warnTime * 1000);//控制蜂鸣持续时间，4s
+    }
+
+}
+
+void Function::warnStop()
+{
+    soundTimer->stop();
+    //下发停止指令
+    if(serialHandler != nullptr)
+    {
+        char *command = new char[4];
+        command[0] = 'F';
+        command[1] = 'M';
+        command[2] = 'Q';
+        memset(&command[3], 0, sizeof(int8_t));
+        serialHandler->write(command, 4);
     }
 }

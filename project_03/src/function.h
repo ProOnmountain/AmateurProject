@@ -8,6 +8,7 @@
 #include <vector>
 #include <mutex>
 #include <deque>
+#include <QTimer>
 using std::vector;
 class Function : public QObject
 {
@@ -21,10 +22,10 @@ signals:
     void drawPoint(QList<QPointF> &points);//发送绘制信号
     void drawPoint(QPointF *points);
     void updateMainUI(float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *, float *);//更新界面
-    void warn(int8_t freq, QSerialPort *serialHandler);//蜂鸣器控制
 
 public slots:
     void updateConfig(float **matrix1, float **matrix2, float **matrix3, float *offset1, float *offset2, float *other);//接收配置更新
+    void warnStop();//停止预警
 
 public:
     QStringList getSerialList();//获取本机串口列表
@@ -37,6 +38,8 @@ private:
     float *adjustAlgorithm(float **matrix, float *rawVector, float *offset);//校准算法
     float *consistencyAdjustAlgorithm(float **matrix, float *adjustVector);//分量一致性校准算法
     void warnAlgorithm();//预警处理
+    void warnPlay(int8_t freq);//播放预警
+
 
 private:
     QSerialPort *serialHandler;
@@ -67,6 +70,7 @@ private:
     std::deque<float> warnData;//用来存放计算预警的数据
     float warnCount;//用来判断是否进行预警计算
     float MA1;
+    QTimer *soundTimer;//控制预警时间
 };
 
 

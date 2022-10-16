@@ -12,8 +12,9 @@ NumberKeyboard::NumberKeyboard(QWidget *parent) :
     ui(new Ui::NumberKeyboard)
 {
     ui->setupUi(this);
+    this->setFixedSize(width(), height());
     this->setWindowFlags(Qt::CustomizeWindowHint |Qt::WindowTitleHint | Qt::WindowStaysOnTopHint);
-    inputNumberStr = "";
+    this->hide();
     currentInputWidget = nullptr;
     connectNumberBtn();
     connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(updateInputWidget(QWidget*, QWidget*)));
@@ -129,7 +130,6 @@ void NumberKeyboard::updateInputWidget(QWidget *old, QWidget *inputWidget)
     }
     if(inputWidget != nullptr)
     {
-        qDebug() <<"inputWidget: " << inputWidget->objectName();
         if(inputWidget->objectName().contains("doubleSpinBox") ||
            inputWidget->objectName().contains("spinBox"))
         {
@@ -158,7 +158,6 @@ void NumberKeyboard::updateInputWidget(QWidget *old, QWidget *inputWidget)
         else
         {
             this->hide();
-            qDebug() << "currentInputWidget: nullptr";
             currentInputWidget = nullptr;
         }
     }

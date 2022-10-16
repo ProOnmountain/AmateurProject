@@ -28,8 +28,7 @@ ConfigUI::~ConfigUI()
 void ConfigUI::init()
 {
     keyBoard = new NumberKeyboard;
-    keyBoard->show();
-    this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+//    this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
     QDir configDirInfo(configDir);
     QStringList fileList = configDirInfo.entryList();
     currentInputWidget = nullptr;

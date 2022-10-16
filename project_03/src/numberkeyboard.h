@@ -25,7 +25,6 @@ private:
 
 private:
     Ui::NumberKeyboard *ui;
-    QString inputNumberStr;//当前输入的数字
 public:
     QWidget *currentInputWidget;
 

@@ -24,7 +24,6 @@ void MainUI::initUI()
 {
     this->setWindowFlags(Qt::CustomizeWindowHint |Qt::WindowTitleHint);
     this->showFullScreen();
-    serialHandler = nullptr;
     showIndex[0] = -1;
     showIndex[1] = -1;
     ui->mainToolBar->hide();
@@ -56,20 +55,6 @@ void MainUI::initUI()
     lineColor.append(QColor(0x00, 0x54, 0x00));
     lineColor.append(QColor(0x7f, 0xff, 0x00));
     lineColor.append(QColor(0xff, 0xff, 0xff));
-
-    //蜂鸣
-    QAudioFormat audioFormat;
-    audioFormat.setCodec("audio/pcm");
-    audioFormat.setByteOrder(QAudioFormat::LittleEndian);
-    audioFormat.setSampleRate(44100);
-    audioFormat.setChannelCount(2);
-    audioFormat.setSampleSize(16);
-    audioFormat.setSampleType(QAudioFormat::SignedInt);
-    soundPlay = new QAudioOutput(QAudioDeviceInfo::defaultOutputDevice(), audioFormat);
-    sound = new Sound();
-    sound->open(QIODevice::ReadWrite);
-    soundTimer = new QTimer();
-    QObject::connect(soundTimer, SIGNAL(timeout()), this, SLOT(warnStop()));
 
     //添加电池
     battery_1 = new Battery(this);//添加电池图标
@@ -148,7 +133,6 @@ void MainUI::initUI()
                      function, SLOT(updateConfig(float**,float**,float**,float*,float*,float*)));
     QObject::connect(function, SIGNAL(updateMainUI(float*,float*, float*,float*,float*,float*,float*,float*,float*,float*,float*,float*,float*)),
                      this, SLOT(updateMainUI(float*,float*, float*,float*,float*,float*,float*,float*,float*,float*,float*,float*,float*)));
-    QObject::connect(function, SIGNAL(warn(int8_t, QSerialPort *)), this, SLOT(warnPlay(int8_t, QSerialPort*)));
 }
 
 void MainUI::loadQss()
@@ -168,6 +152,13 @@ void MainUI::on_pushButton_config_clicked()
 {
     if(configUI != nullptr)
     {
+        for(int i = 0; i < 2; ++i)
+        {
+            if(showIndex[i] != -1)
+            {
+                lines[showIndex[i]]->hide();
+            }
+        }
         configUI->showFullScreen();
         configUI->show();
     }
@@ -185,10 +176,10 @@ void MainUI::appendLinePoint(QList<QPointF> &points)
     for(int i = 0; i < lineNum; ++i)
     {
         lines[i]->append(points[i]);
-        while(lines[i]->points().count() > 10000)
+        if(lines[i]->points().count() > 2500)
         {
             lines[i]->removePoints(0, 1000);
-            qDebug() << "delete 1000 points, ramains: " << lines[i]->points().count();
+//            qDebug() << "delete 1000 points, ramains: " << lines[i]->points().count();
         }
         //调整x轴范围
         double xmin = ((QValueAxis *)(ui->widget_painter->chart()->axisX()))->min();
@@ -249,7 +240,6 @@ void MainUI::setLineVisible()
     }
     if(index1 == index2)
     {
-        qDebug() << "2 dis";
         ui->label_line2->setText("");
         ui->label_legend2->setStyleSheet(QString("QLabel#label_legend2{background-color:rgb(%1,%2,%3);border-radius:5;}").arg(0).arg(0).arg(0));
         ui->label_sub2->setText("");
@@ -269,7 +259,9 @@ void MainUI::updateMainUI(float *adjust_B1, float *adjust_B2, float *B1, float *
     mutex->lock();
     //界面数据更新
     //显示信息更新
-    battery_1->setValue(int(*(battery)));
+    int batteryValue = ((*(battery)) - 6.5) / (8.2 - 6.5) * 100;
+//    battery_1->setValue(batteryValue);
+    qDebug() << batteryValue;
     ui->label_starNum->setText(QString::number(int(*(starNum)), 'f', 0));
     ui->label_GPS->setText(QString::number(*(locate), 'f', 0));
     //曲线更新
@@ -289,8 +281,11 @@ void MainUI::updateMainUI(float *adjust_B1, float *adjust_B2, float *B1, float *
         points.append(QPointF(playTime, 0));
         points.append(QPointF(playTime, 0));
     }
-    points.append(QPointF(playTime, *atomic));
-    ui->label_B3->setText(QString("B3: ")+ QString::number(*atomic, 'f', 1));
+    if(atomic != nullptr)
+    {
+        points.append(QPointF(playTime, *atomic));
+        ui->label_B3->setText(QString("B3: ")+ QString::number(*atomic, 'f', 1));
+    }
     if(adjust_B1 != nullptr && adjust_B2 != nullptr)
     {
         double temp3 = sqrt(pow(adjust_B1[0] - adjust_B2[0], 2) +pow(adjust_B1[1] - adjust_B2[1], 2) + pow(adjust_B1[2] - adjust_B2[2], 2));
@@ -320,45 +315,8 @@ void MainUI::updateMainUI(float *adjust_B1, float *adjust_B2, float *B1, float *
     maxSubMin();
     appendLinePoint(points);
     playTime += timeStep;
+//    qDebug() << "INFO ：append point";
     mutex->unlock();
-}
-
-void MainUI::warnPlay(int8_t freq, QSerialPort *serial)
-{
-    if(sound != nullptr)
-    {
-        //下发指令
-        if(serialHandler != nullptr)
-        {
-            qDebug() << freq;
-            char *command = new char[4];
-            command[0] = 'F';
-            command[1] = 'M';
-            command[2] = 'Q';
-            memcpy(&command[3], &freq, sizeof(int8_t));
-            serialHandler->write(command, 4);//串口下发
-            soundTimer->start(warnTime * 1000);//控制蜂鸣持续时间，4s
-        }
-        else
-        {
-            serialHandler = serial;
-        }
-    }
-}
-
-void MainUI::warnStop()
-{
-    soundTimer->stop();
-    //下发停止指令
-    if(serialHandler != nullptr)
-    {
-        char *command = new char[4];
-        command[0] = 'F';
-        command[1] = 'M';
-        command[2] = 'Q';
-        memset(&command[3], 0, sizeof(int8_t));
-        serialHandler->write(command, 4);
-    }
 }
 
 void MainUI::maxSubMin()
@@ -375,8 +333,8 @@ void MainUI::maxSubMin()
     }
     if(!pointList1.empty())
     {
-        float min1 = 99999;
-        float max1 = -99999;
+        float min1 = 999999999;
+        float max1 = -999999999;
         int len = pointList1.length();
         float xAxis_min = ((QValueAxis *)(ui->widget_painter->chart()->axisX()))->min();
         for(int i = 0; i < len; ++i)
@@ -397,8 +355,8 @@ void MainUI::maxSubMin()
     }
     if(!pointList2.empty())
     {
-        float min2 = 99999;
-        float max2 = -99999;
+        float min2 = 999999999;
+        float max2 = -999999999;
         int len = pointList2.length();
         float xAxis_min = ((QValueAxis *)(ui->widget_painter->chart()->axisX()))->min();
         for(int i = 0; i < len; ++i)
