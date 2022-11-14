@@ -1,0 +1,17 @@
+INPUT(
+./release\main.o
+./release\whiteboard.o
+./release\graphicsscene.o
+./release\rectitem.o
+./release\circleitem.o
+./release\baseitem.o
+./release\whiteboardclient.o
+./release\JsonObject.o
+./release\qrc_resource.o
+./release\moc_whiteboard.o
+./release\moc_graphicsscene.o
+./release\moc_rectitem.o
+./release\moc_circleitem.o
+./release\moc_baseitem.o
+./release\moc_whiteboardclient.o
+);

@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\whiteboard.o
+./debug\graphicsscene.o
+./debug\rectitem.o
+./debug\circleitem.o
+./debug\baseitem.o
+./debug\whiteboardclient.o
+./debug\JsonObject.o
+./debug\qrc_resource.o
+./debug\moc_whiteboard.o
+./debug\moc_graphicsscene.o
+./debug\moc_rectitem.o
+./debug\moc_circleitem.o
+./debug\moc_baseitem.o
+./debug\moc_whiteboardclient.o
+);
